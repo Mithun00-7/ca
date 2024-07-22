@@ -4,11 +4,12 @@
 
 int main() {
     int fib[N];
+
     fib[0] = 0;
     fib[1] = 1;
 
     for (int i = 2; i < N; i++) {
-        fib[i] = fib[i-1] + fib[i-2];
+        fib[i] = fib[i - 1] + fib[i - 2];
     }
 
     printf("Fibonacci sequence (sequential):\n");
@@ -19,7 +20,7 @@ int main() {
 
     #pragma omp parallel for
     for (int i = 2; i < N; i++) {
-        fib[i] = fib[i-1] + fib[i-2];
+        fib[i] = fib[i - 1] + fib[i - 2];
     }
 
     printf("Fibonacci sequence (parallel with loop unrolling):\n");
@@ -27,5 +28,6 @@ int main() {
         printf("%d ", fib[i]);
     }
     printf("\n");
+
     return 0;
 }
