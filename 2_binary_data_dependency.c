@@ -22,7 +22,6 @@ int main() {
     for (i = 0; i < ARRAY_SIZE; ++i) {
         arr[i] = i;
     }
-
     #pragma omp parallel shared(arr, result)
     {
         int tid = omp_get_thread_num();
@@ -31,14 +30,12 @@ int main() {
         int left = tid * chunk_size;
         int right = (tid == num_threads - 1) ? ARRAY_SIZE - 1 : (tid + 1) * chunk_size - 1;
         int local_result = binary_search(arr, left, right, TARGET);
-
         #pragma omp critical
         {
             if (local_result != -1 && result == -1)
                 result = local_result;
         }
     }
-
     if (result != -1)
         printf("Element %d found at index %d.\n", TARGET, result);
     else
