@@ -1,9 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <omp.h>
+#include <stdlib.h>
+
 #define ARRAY_SIZE 25
 
 void bubble_sort(int arr[], int n) {
+    #pragma omp critical
     for (int i = 0; i < n - 1; ++i) {
         for (int j = 0; j < n - i - 1; ++j) {
             if (arr[j] > arr[j + 1]) {
@@ -25,15 +27,14 @@ int main() {
     for (int i = 0; i < ARRAY_SIZE; i++)
         printf("%d  ", arr[i]);
     printf("\n");
-
+    
     #pragma omp parallel shared(arr)
     {
         bubble_sort(arr, ARRAY_SIZE);
     }
-
     printf("Sorted array:\n");
     for (int i = 0; i < ARRAY_SIZE; ++i) {
-        printf("%d  ", arr[i]);
+        printf("%d   ", arr[i]);
     }
     printf("\n");
     return 0;
